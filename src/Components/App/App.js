@@ -12,11 +12,17 @@ export class App extends React.Component {
     this.state = { 
       searchResults: [],
       playlistName: 'My Playlist',
-      playlistTracks: []
+      playlistTracks: [],
+      currentPreview: null,
+      currentPreviewId: null
     };
 
     this.addTrack = this.addTrack.bind(this);
     this.removeTrack = this.removeTrack.bind(this);
+    this.playPreview = this.playPreview.bind(this);
+    this.pausePreview = this.pausePreview.bind(this);
+    // this.startResetTimer = this.startResetTimer.bind(this);
+
     this.updatePlaylistName = this.updatePlaylistName.bind(this);
     this.savePlaylist = this.savePlaylist.bind(this);
     this.search = this.search.bind(this);
@@ -35,6 +41,45 @@ export class App extends React.Component {
     let tracks = this.state.playlistTracks;
     tracks = tracks.filter(currentTrack => currentTrack.id !== track.id)
     this.setState({ playlistTracks: tracks });
+  }
+
+  playPreview(trackUrl, trackId) {
+    let currentPreview = this.state.currentPreview;
+    const currentPreviewId = this.state.currentPreviewId;
+    if(currentPreviewId !== null) {
+      currentPreview.pause();
+      this.stopResetTimer();
+    }
+    fetch(this.setState({ 
+      currentPreview: new Audio(trackUrl),
+      currentPreviewId: trackId
+     })
+    ).then(() => {
+        currentPreview = this.state.currentPreview;
+        currentPreview.play();
+        this.startResetTimer();
+      })
+  }
+
+  pausePreview() {
+    let currentPreview = this.state.currentPreview;
+    currentPreview.pause();
+    this.setState({ 
+      currentPreviewId: null,
+      currentPreview: null 
+    });
+  }
+
+  startResetTimer() {
+    this.timeoutId = setTimeout(() => {
+      this.setState({ 
+        currentPreviewId: null,
+        currentPreview: null });
+    }, 30000);
+  }
+
+  stopResetTimer() {
+    clearTimeout(this.timeoutId);
   }
 
   updatePlaylistName(name) {
@@ -65,12 +110,18 @@ export class App extends React.Component {
         <div className="App">
           <SearchBar onSearch={this.search} />
           <div className="App-playlist">
-          <SearchResults  onAdd={this.addTrack} 
+          <SearchResults  onAdd={this.addTrack}
+                          onPlay={this.playPreview}
+                          onPause={this.pausePreview}
+                          currentPreviewId={this.state.currentPreviewId}
                           searchResults={this.state.searchResults} />
           <Playlist playlistName={this.state.playlistName}
                     playlistTracks={this.state.playlistTracks} 
                     onRemove={this.removeTrack}
-                    onSave={this.savePlaylist} 
+                    onSave={this.savePlaylist}
+                    onPlay={this.playPreview}
+                    onPause={this.pausePreview}
+                    currentPreviewId={this.state.currentPreviewId} 
                     onNameChange={this.updatePlaylistName} />
           </div>
         </div>

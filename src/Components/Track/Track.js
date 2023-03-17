@@ -1,12 +1,38 @@
 import React from "react";
 import "./Track.css";
 
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPlay } from "@fortawesome/free-solid-svg-icons";
+import { faPause } from "@fortawesome/free-solid-svg-icons";
+
+
 export class Track extends React.Component {
     constructor(props) {
         super(props);
 
         this.addTrack = this.addTrack.bind(this);
         this.removeTrack = this.removeTrack.bind(this);
+        this.playPreview = this.playPreview.bind(this);
+        this.pausePreview = this.pausePreview.bind(this);
+        this.renderPlayButton = this.renderPlayButton.bind(this);
+    }
+
+    renderPlayButton() {
+       return this.props.track.id === this.props.currentPreviewId
+        ? <div className="Track-preview" onClick={this.pausePreview}>
+                <FontAwesomeIcon icon={faPause} />
+            </div>
+        : <div className="Track-preview" onClick={this.playPreview}>
+                <FontAwesomeIcon icon={faPlay} />
+            </div>
+    }
+    
+    playPreview() {
+        this.props.onPlay(this.props.track.previewUrl, this.props.track.id);
+    }
+
+    pausePreview() {
+        this.props.onPause();
     }
 
     renderAction() {
@@ -26,6 +52,7 @@ export class Track extends React.Component {
     render() {
         return (
             <div className="Track">
+                {this.renderPlayButton()}
                 <div className="Track-information">
                     <h3>{this.props.track.name}</h3>
                     <p>{this.props.track.artist} | {this.props.track.album}</p>

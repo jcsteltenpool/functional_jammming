@@ -1,5 +1,6 @@
 const clientID = "ddd6561612484af0a937a06161ae7cd7";
-const redirectURI = "https://react-jammm-ba-ram.netlify.app";
+// const redirectURI = "https://react-jammm-ba-ram.netlify.app";
+const redirectURI = "http://localhost:3000/";
 let accessToken;
 
 const Spotify = { 
@@ -40,6 +41,8 @@ const Spotify = {
                 name: track.name,
                 artist: track.artists[0].name,
                 album: track.album.name,
+                imageURL: track.album.images.url,
+                previewUrl: track.preview_url,
                 uri: track.uri
             }));
         });
