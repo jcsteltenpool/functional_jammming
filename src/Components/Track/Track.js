@@ -19,12 +19,12 @@ export class Track extends React.Component {
 
     renderPlayButton() {
        return this.props.track.id === this.props.currentPreviewId
-        ? <div className="Track-preview" onClick={this.pausePreview}>
+        ? <button className="Track-preview" onClick={this.pausePreview}>
                 <FontAwesomeIcon icon={faPause} />
-            </div>
-        : <div className="Track-preview" onClick={this.playPreview}>
+            </button>
+        : <button className="Track-preview" onClick={this.playPreview}>
                 <FontAwesomeIcon icon={faPlay} />
-            </div>
+            </button>
     }
     
     playPreview() {

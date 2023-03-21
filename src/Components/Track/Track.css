@@ -7,13 +7,16 @@
   .Track-action,
   .Track-preview {
     cursor: pointer;
-    width: 10px;
     padding: .5rem;
     font-size: 1.05rem;
     transition: color .25s;
     border: 0px;
     background-color: rgba(0, 0, 0, 0);
     color: #fff;
+  }
+
+  .Track-preview {
+    width: 1.7rem;
   }
   
   .Track-action:hover,
