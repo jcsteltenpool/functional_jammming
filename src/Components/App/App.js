@@ -11,9 +11,9 @@ export class App extends React.Component {
 
     this.state = { 
       searchResults: [],
-      playlistName: 'My Playlist',
+      playlistName: 'New Playlist',
       playlistTracks: [],
-      currentPreview: null,
+      currentPreviewTrack: null,
       currentPreviewId: null
     };
 
@@ -21,8 +21,8 @@ export class App extends React.Component {
     this.removeTrack = this.removeTrack.bind(this);
     this.playPreview = this.playPreview.bind(this);
     this.pausePreview = this.pausePreview.bind(this);
-    // this.startResetTimer = this.startResetTimer.bind(this);
-
+    this.startResetTimer = this.startResetTimer.bind(this);
+    this.stopResetTimer = this.stopResetTimer.bind(this);
     this.updatePlaylistName = this.updatePlaylistName.bind(this);
     this.savePlaylist = this.savePlaylist.bind(this);
     this.search = this.search.bind(this);
@@ -44,29 +44,30 @@ export class App extends React.Component {
   }
 
   playPreview(trackUrl, trackId) {
-    let currentPreview = this.state.currentPreview;
-    const currentPreviewId = this.state.currentPreviewId;
+    let currentPreviewTrack = this.state.currentPreviewTrack;
+    let currentPreviewId = this.state.currentPreviewId;
     if(currentPreviewId !== null) {
-      currentPreview.pause();
+      currentPreviewTrack.pause();
       this.stopResetTimer();
     }
     fetch(this.setState({ 
-      currentPreview: new Audio(trackUrl),
+      currentPreviewTrack: new Audio(trackUrl),
       currentPreviewId: trackId
      })
     ).then(() => {
-        currentPreview = this.state.currentPreview;
-        currentPreview.play();
+      currentPreviewTrack = this.state.currentPreviewTrack;
+      currentPreviewTrack.play();
         this.startResetTimer();
       })
   }
 
   pausePreview() {
-    let currentPreview = this.state.currentPreview;
-    currentPreview.pause();
+    let currentPreviewTrack = this.state.currentPreviewTrack;
+    currentPreviewTrack.pause();
+    this.stopResetTimer();
     this.setState({ 
       currentPreviewId: null,
-      currentPreview: null 
+      currentPreviewTrack: null 
     });
   }
 
@@ -74,7 +75,7 @@ export class App extends React.Component {
     this.timeoutId = setTimeout(() => {
       this.setState({ 
         currentPreviewId: null,
-        currentPreview: null });
+        currentPreviewTrack: null });
     }, 30000);
   }
 
@@ -117,11 +118,11 @@ export class App extends React.Component {
                           searchResults={this.state.searchResults} />
           <Playlist playlistName={this.state.playlistName}
                     playlistTracks={this.state.playlistTracks} 
+                    currentPreviewId={this.state.currentPreviewId} 
                     onRemove={this.removeTrack}
                     onSave={this.savePlaylist}
                     onPlay={this.playPreview}
                     onPause={this.pausePreview}
-                    currentPreviewId={this.state.currentPreviewId} 
                     onNameChange={this.updatePlaylistName} />
           </div>
         </div>
