@@ -24,7 +24,7 @@ export default function Track (props) {
                     <FontAwesomeIcon icon={faPause} />
                 </button>
             :   <button className="Preview-button" onClick={() => onPlay(track)}>
-                    <img className="Track-image" src={track.imageUrl}/>
+                    <img className="Track-image" src={track.imageUrl} alt=""/>
                     <FontAwesomeIcon icon={faPlay} />
                 </button>
     };
