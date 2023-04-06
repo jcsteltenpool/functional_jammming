@@ -13,7 +13,7 @@ html {
 }
 
 h1 {
-  padding: .77rem 0;
+  padding: .77rem;
   background-color: #010c3f;
   text-align: center;
   font-family: 'Poppins', sans-serif;
@@ -46,6 +46,12 @@ h2 {
   display: flex;
   justify-content: space-between;
   width: 100%;
+}
+
+@media (max-width: 600px) {
+  .App {
+    padding: 0 5% 10% 5%;
+  }
 }
 
 @media only screen and (max-width: 1020px) {

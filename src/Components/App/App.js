@@ -16,7 +16,7 @@ export default function App () {
   const addTrack = track => {
     setPlaylistTracks(prev => { 
       if (prev.find(savedTrack => savedTrack.id === track.id)) {
-        return;
+        return prev.filter(t => t !== track.id);
       }
       return [track, ...prev];
     })
