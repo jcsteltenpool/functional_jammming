@@ -30,6 +30,7 @@
 .Track-action,
 .Preview-button {
   cursor: pointer;
+  padding: 0;
   font-size: 1.05rem;
   transition: color .25s;
   border: 0px;
