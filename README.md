@@ -1,70 +1,130 @@
-# Getting Started with Create React App
+# Functional Jammming - The Codecademy project rewritten
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This is my solution to the [Jammming Project](http://jammming.s3-website-us-east-1.amazonaws.com), part of the Codecademy Front-End Developer Career Path.  
+The project focused on using my knowledge of React components, passing state, and requests with the Spotify API to build a website that allows users to search the Spotify library, create a custom playlist, then save it to their Spotify account. 
 
-## Available Scripts
+## Table of contents
 
-In the project directory, you can run:
+- [Overview](#overview)
+  - [The challenge](#the-challenge)
+  - [Screenshot](#screenshot)
+  - [Links](#links)
+  - [Built with](#built-with)
+  - [What I learned](#what-i-learned)
+  - [Useful resources](#useful-resources)
+- [Author](#author)
+- [Acknowledgments](#acknowledgments)
 
-### `npm start`
+## Overview
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+### The challenge
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+Whereas the original project was ment to be written using class components, I decided to challenge myself and to rewrite the entire project using function components.  
+Also, I wanted to add the possibility to preview the tracks and to animate the playing preview with a micro animation of a circle filling up. 
 
-### `npm test`
+### Screenshot
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+![Screenshot of the Functional Jammming React app](./func_jammming_desktop_screenshot.jpg)
 
-### `npm run build`
+### Links
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- Live Site URL: [https://functional-jammming.netlify.app/](https://functional-jammming.netlify.app/)
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### Built with
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- React 
+- Function components
+- SVG animation
+- CSS Flexbox
+- CSS Grid
 
-### `npm run eject`
+### What I learned
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+**Using React hooks**  
+Having the existing code, written in class components, as a starting point gave me a solid base to rewrite the components from classes to functions. While doing so I stumbled upon some new problems to solve, because function components obviously behave different then class components. But with some extra study on and appliance of my knowledge of React hooks such as the `useEffect` and `useRef` hook I managed to overcome these challenges.  
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+For example: in the class components version I could declare `timeoutId`'s by simply stating new timeoutId's using `this`:
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+```js
+startResetTimer() {
+    this.timeoutId = setTimeout(() => {
+      this.setState({ 
+        currentPreviewId: null,
+        currentPreviewTrack: null });
+    }, 30000);
+}
 
-## Learn More
+stopResetTimer() {
+    clearTimeout(this.timeoutId);
+}
+```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+In function components on the other hand there is no `this` so I had to find a workaround to fix 'this' (paddum-tsss).   
+The [React Documentation](https://react.dev/reference/react/useRef) brought the `useRef` hook to my attention, which I applied succesfully in the following way:
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+```js
+const timeoutRef = useRef(null);
 
-### Code Splitting
+const startResetTimer= () => {
+    const timeoutId = setTimeout(() => {
+      setPreviewId(null);
+      setPreviewTrack(null);
+    }, 30000);
+    timeoutRef.current = timeoutId;
+};
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+const stopResetTimer = () => {
+    const timeoutId = timeoutRef.current;
+    clearTimeout(timeoutId);
+};
+```
+  
+**Creating the micro animation**  
+In a [YouTube tutorial by Kevin Powell](https://www.youtube.com/watch?v=R00QiudbD4Y&t=253s) I stumbled upon the animation of hamburger menu's using SVG's. To create the animation of a circle forming while the preview played I transferred what I learned in this video and made my own SVG of a circle that could fill up using `stroke-dasharray`. 
 
-### Analyzing the Bundle Size
+In JS:
+```js
+<button className="Preview-button" data-state="isPlaying" onClick={() => onPause()}>
+    <svg stroke="white" fill="none" className="Preview-circle" viewBox="0 0 100 100" width="36">
+        <path
+            className="line"
+            strokeWidth="6"
+            strokeLinecap="butt"
+            d="m 50 10 A 1 1 0 0 1 50 90 A 1 1 0 0 1 50 10">
+        </path>
+    </svg>
+</button>
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+In CSS:
+```css
+.Preview-button[data-state="isPlaying"] .line {
+  animation: fillCircle 30s linear forwards;
+}
 
-### Making a Progressive Web App
+@keyframes fillCircle {
+  0% {
+    stroke-dasharray: 1 250;
+  }
+  100% {
+    stroke-dasharray: 251;
+  }
+}
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+### Useful resources
 
-### Advanced Configuration
+- [React Documentation](https://react.dev)
+- [Spotify Developers - Web API reference](https://developer.spotify.com/documentation/web-api/reference/) 
+- **Codecademy Front-End Engineer Career Path** on **React Function Components and Hooks**  
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+## Author
 
-### Deployment
+- Website - [Joost Steltenpool](https://jooststeltenpool.nl)
+- LinkedIn - [@jooststeltenpool](https://www.linkedin.com/in/jooststeltenpool/)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
 
-### `npm run build` fails to minify
+## Acknowledgments
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Many thanks to Codecademy for providing me with all the fundamental knowledge, React for their great documentation and to Kevin Powell for his awesome YouTube tips, tricks and tutorial videos.
