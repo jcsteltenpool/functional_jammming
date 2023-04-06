@@ -1,9 +1,9 @@
-const clientID = "ddd6561612484af0a937a06161ae7cd7";
-const redirectURI = "https://react-jammm-ba-ram.netlify.app";
-// const redirectURI = "http://localhost:3000/";
+const clientID = "6f3da414933b40199592045dbe3e1a8d";
+// const redirectURI = "https://functional-jammming.netlify.app";
+const redirectURI = "http://localhost:3000/";
 let accessToken;
 
-const Spotify = { 
+export const Spotify = { 
     getAccessToken() {
         if (accessToken) {
             return accessToken;
@@ -41,7 +41,7 @@ const Spotify = {
                 name: track.name,
                 artist: track.artists[0].name,
                 album: track.album.name,
-                imageURL: track.album.images.url,
+                imageUrl: track.album.images[2].url,
                 previewUrl: track.preview_url,
                 uri: track.uri
             }));
@@ -78,5 +78,3 @@ const Spotify = {
         })
     }
 };
-
-export { Spotify };

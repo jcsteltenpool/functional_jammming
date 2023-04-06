@@ -1,3 +1,7 @@
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
 body,
 html,
 #root {
@@ -18,7 +22,7 @@ h1 {
 }
 
 h1 .highlight {
-  color: #6c41ec;
+  color: hsl(255, 82%, 59%);
 }
 
 h2 {

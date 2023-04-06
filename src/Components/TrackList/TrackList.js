@@ -1,25 +1,25 @@
 import React from "react";
 import './TrackList.css';
-import { Track } from '../Track/Track';
+import Track from '../Track/Track';
 
-export class TrackList extends React.Component {
-    render() {
-        return (
-            <div className="TrackList">
+export default function TrackList (props) {
+    const {tracks, onAdd, onPlay, onPause, previewId, onRemove, isRemoval, imageUrl} = props;
+    return (
+        <div className="TrackList">
                 {
-                    this.props.tracks.map(track => {
+                    tracks.map(track => {
                         return <Track track={track}
                                         key={track.id}
-                                        onAdd={this.props.onAdd}
-                                        onPlay={this.props.onPlay}
-                                        onPause={this.props.onPause}
-                                        currentPreviewId={this.props.currentPreviewId}
-                                        onRemove={this.props.onRemove}
-                                        isRemoval={this.props.isRemoval}
-                                         />
+                                        imageUrl={imageUrl}
+                                        onAdd={onAdd}
+                                        onPlay={onPlay}
+                                        onPause={onPause}
+                                        previewId={previewId}
+                                        onRemove={onRemove}
+                                        isRemoval={isRemoval}
+                                        />
                     })
                 }
-            </div>
-        )
-    }
-}
+        </div>
+    )
+};

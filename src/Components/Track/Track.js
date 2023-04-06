@@ -5,60 +5,45 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlay } from "@fortawesome/free-solid-svg-icons";
 import { faPause } from "@fortawesome/free-solid-svg-icons";
 
+export default function Track (props) {
+    const {track, onAdd, onPlay, onPause, previewId, onRemove, isRemoval} = props;
 
-export class Track extends React.Component {
-    constructor(props) {
-        super(props);
+    const renderPreviewState = () => {
+        return track.id === previewId 
+            ?   <button className="Preview-button" data-state="isPlaying" onClick={() => onPause()}>
+                    <img className="Track-image" src={track.imageUrl}/>
 
-        this.addTrack = this.addTrack.bind(this);
-        this.removeTrack = this.removeTrack.bind(this);
-        this.playPreview = this.playPreview.bind(this);
-        this.pausePreview = this.pausePreview.bind(this);
-        this.renderPlayButton = this.renderPlayButton.bind(this);
-    }
+                    <svg stroke="white" fill="none" className="Preview-circle" viewBox="0 0 100 100" width="36">
+                        <path
+                            className="line"
+                            strokeWidth="6"
+                            strokeLinecap="butt"
+                            d="m 50 10 A 1 1 0 0 1 50 90 A 1 1 0 0 1 50 10">
+                        </path>
+                    </svg>
+                    <FontAwesomeIcon icon={faPause} />
+                </button>
+            :   <button className="Preview-button" onClick={() => onPlay(track)}>
+                    <img className="Track-image" src={track.imageUrl}/>
+                    <FontAwesomeIcon icon={faPlay} />
+                </button>
+    };
 
-    renderPlayButton() {
-       return this.props.track.id === this.props.currentPreviewId
-        ? <button className="Track-preview" onClick={this.pausePreview}>
-                <FontAwesomeIcon icon={faPause} />
-            </button>
-        : <button className="Track-preview" onClick={this.playPreview}>
-                <FontAwesomeIcon icon={faPlay} />
-            </button>
-    }
-    
-    playPreview() {
-        this.props.onPlay(this.props.track.previewUrl, this.props.track.id);
-    }
+    const addTrack = () => onAdd(track);
 
-    pausePreview() {
-        this.props.onPause();
-    }
+    const removeTrack = () => onRemove(track);
 
-    renderAction() {
-        return this.props.isRemoval
-        ? <button className="Track-action" onClick={this.removeTrack}>-</button>
-        : <button className="Track-action" onClick={this.addTrack}>+</button>
-    }
-
-    addTrack() {
-        this.props.onAdd(this.props.track);
-    }
-
-    removeTrack() {
-        this.props.onRemove(this.props.track);
-    }
-
-    render() {
-        return (
-            <div className="Track">
-                {this.renderPlayButton()}
-                <div className="Track-information">
-                    <h3>{this.props.track.name}</h3>
-                    <p>{this.props.track.artist} | {this.props.track.album}</p>
+    return (
+        <div className="Track">
+                <div>
+                    { renderPreviewState() }
                 </div>
-                {this.renderAction()}
-            </div>
-        )
-    }
-}
+                <div className="Track-information">
+                    <h3>{track.name}</h3>
+                    <p>{track.artist} | {track.album}</p>
+                </div>
+                {isRemoval  ? <button className="Track-action" onClick={removeTrack}>-</button>
+                            : <button className="Track-action" onClick={addTrack}>+</button>}
+        </div>
+    )
+};

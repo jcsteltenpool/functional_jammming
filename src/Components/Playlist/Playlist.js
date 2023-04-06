@@ -1,32 +1,24 @@
 import React from "react";
 import './Playlist.css';
-import { TrackList } from '../TrackList/TrackList';
+import TrackList from '../TrackList/TrackList';
 
-export class Playlist extends React.Component {
-    constructor(props) {
-        super(props)
-
-        this.handleNameChange = this.handleNameChange.bind(this);
-    }
+export default function Playlist (props) {
+    const {onNameChange, playlistTracks, playlistName, onRemove, onPlay, onPause, previewId, onSave} = props;
     
-    handleNameChange(event) {
-        this.props.onNameChange(event.target.value);
-    }
+    const handleNameChange = ({ target }) => onNameChange(target.value);
     
-    render() {
-        return (
-            <div className="Playlist">
-                <input defaultValue={"New Playlist"}
-                        placeholder="Enter Playlist Name"
-                        onChange={this.handleNameChange} />
-                <TrackList  tracks={this.props.playlistTracks}
-                            onRemove={this.props.onRemove}
-                            onPlay={this.props.onPlay}
-                            onPause={this.props.onPause}
-                            currentPreviewId={this.props.currentPreviewId}
-                            isRemoval={true}/>
-                <button className="Playlist-save" onClick={this.props.onSave}>SAVE TO SPOTIFY</button>
-            </div>
-        )
-    }
+    return (
+        <div className="Playlist">
+            <input defaultValue={playlistName}
+                    placeholder="Enter Playlist Name"
+                    onChange={handleNameChange} />
+            <TrackList  tracks={playlistTracks}
+                        onRemove={onRemove}
+                        onPlay={onPlay}
+                        onPause={onPause}
+                        previewId={previewId}
+                        isRemoval={true}/>
+            <button className="Playlist-save" onClick={onSave}>SAVE TO SPOTIFY</button>
+        </div>
+    )
 }
