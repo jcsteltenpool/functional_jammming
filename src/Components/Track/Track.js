@@ -11,7 +11,7 @@ export default function Track (props) {
     const renderPreviewState = () => {
         return track.id === previewId 
             ?   <button className="Preview-button" data-state="isPlaying" onClick={() => onPause()}>
-                    <img className="Track-image" src={track.imageUrl}/>
+                    <img className="Track-image" src={track.imageUrl} alt=""/>
 
                     <svg stroke="white" fill="none" className="Preview-circle" viewBox="0 0 100 100" width="36">
                         <path
