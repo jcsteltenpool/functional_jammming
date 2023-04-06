@@ -50,7 +50,6 @@
   align-items: center;
   width: 40px;
   aspect-ratio: 1 / 1;
-  border: 1px solid #6c41ec;
 }
 
 .Preview-button > * {
@@ -69,6 +68,7 @@
   opacity: 0.5;
   z-index: 1;
   width: 40px;
+  border: 1px solid #6c41ec;
 }
 
 .Preview-button .line {
