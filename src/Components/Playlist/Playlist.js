@@ -9,7 +9,7 @@ export default function Playlist (props) {
     
     return (
         <div className="Playlist">
-            <input defaultValue={playlistName}
+            <input value={playlistName}
                     placeholder="Enter Playlist Name"
                     onChange={handleNameChange} />
             <TrackList  tracks={playlistTracks}
