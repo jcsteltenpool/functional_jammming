@@ -1,5 +1,7 @@
 # Functional Jammming - The Codecademy project rewritten
 
+Last update: april 7th 2023  
+
 This is my solution to the [Jammming Project](http://jammming.s3-website-us-east-1.amazonaws.com), part of the Codecademy Front-End Developer Career Path.  
 The project focused on using my knowledge of React components, passing state, and requests with the Spotify API to build a website that allows users to search the Spotify library, create a custom playlist, then save it to their Spotify account. 
 
@@ -11,6 +13,7 @@ The project focused on using my knowledge of React components, passing state, an
   - [Links](#links)
   - [Built with](#built-with)
   - [What I learned](#what-i-learned)
+  - [The next step](#the-next-step)
   - [Useful resources](#useful-resources)
 - [Author](#author)
 - [Acknowledgments](#acknowledgments)
@@ -19,7 +22,7 @@ The project focused on using my knowledge of React components, passing state, an
 
 ### The challenge
 
-Whereas the original project was ment to be written using class components, I decided to challenge myself and to rewrite the entire project using function components.  
+Whereas the original project was ment to be written using class components, I decided to challenge myself and rewrote the entire project using on only function components.  
 Also, I wanted to add the possibility to preview the tracks and to animate the playing preview with a micro animation of a circle filling up. 
 
 ### Screenshot
@@ -112,6 +115,11 @@ In CSS:
   }
 }
 ```
+
+### The next step  
+Right now the animation of the circle is static, but I would like it to reflect the actual current playstate / duration of the audio file. This way I can hopefully make it possible to kill this bug: if you trigger playing a track in the Search results and additionaly add it to the Playlist, the animation starts from 0 in the Playlist version of the track.
+
+Another addition I would like to explore is using the Color Thief plugin to return the dominant color in the artwork of the current preview track. I would use this color or the color palette to change the overall look of the Functional Jammming app.dd
 
 ### Useful resources
 
