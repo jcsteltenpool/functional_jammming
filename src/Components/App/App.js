@@ -38,35 +38,53 @@ export default function App () {
   /* PREVIEW TRACK MANIPULATION */
   const [previewTrack, setPreviewTrack] = useState(null);
   const [previewId, setPreviewId] = useState(null);
-  const timeoutRef = useRef(null);
 
   const playPreview = (track) => {
-    if (previewId !== null) {
-      previewTrack.pause();
-      stopResetTimer();
+    if (previewId) {
+      pausePreview();
     }
     setPreviewId(track.id);
-    setPreviewTrack(new Audio(track.previewUrl));
+    setPreviewTrack(track.previewUrl);
   }
   
+  const audioRef = useRef(null);
+  
   useEffect(() => {
-    if (previewTrack !== null) {
-      previewTrack.play();
+    if (previewTrack) {
+      audioRef.current.play();
       startResetTimer();
     }
   }, [previewTrack]);
-
+  
   const pausePreview = () => {
-    previewTrack.pause();
-    stopResetTimer()
+    audioRef.current.pause();
+    stopResetTimer();
     setPreviewId(null);
     setPreviewTrack(null);
+    setProgress(initProgress);
   };
+  
+  const initProgress = "0 250";
+  const [progress, setProgress] = useState(initProgress);
+  useEffect(() => {
+    if (previewTrack) {
+      const id = setInterval(() => {
+        const calcProgress = ((Math.ceil(audioRef.current.currentTime * 8.7)).toString()) + " 250";
+        setProgress(calcProgress);
+        console.log(progress);
+        // console.log(Math.ceil(audioRef.current.currentTime * 8.4));
+      }, 1000);
+      return () => clearInterval(id);
+    }
+  });
+
+  const timeoutRef = useRef(null);
 
   const startResetTimer= () => {
     const timeoutId = setTimeout(() => {
       setPreviewId(null);
       setPreviewTrack(null);
+      setProgress(initProgress);
     }, 30000);
     timeoutRef.current = timeoutId;
   };
@@ -87,17 +105,22 @@ export default function App () {
   return (
     <section>
       <h1>Functional Ja<span className="highlight">mmm</span>ing</h1>
+      <audio src={previewTrack} ref={audioRef}></audio>
       <div className="App">
         <SearchBar onSearch={search} />
         <div className="App-playlist">
         <SearchResults  onAdd={addTrack}
                         onPlay={playPreview}
                         onPause={pausePreview}
+                        progress={progress}
+                        audioRef={audioRef}
                         previewId={previewId}
                         searchResults={searchResults} />
         <Playlist playlistName={playlistName}
                   playlistTracks={playlistTracks} 
                   previewId={previewId} 
+                  progress={progress}
+                  audioRef={audioRef.current}
                   onRemove={removeTrack}
                   onSave={savePlaylist}
                   onPlay={playPreview}

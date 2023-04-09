@@ -5,6 +5,7 @@
     align-items: center;
     gap: 0.5rem;
     border-bottom: 1px solid rgba(256, 256, 256, 0.8);
+    transition: all 1s linear;
 }
 
 /* Track info */
@@ -73,7 +74,8 @@
 }
 
 .Preview-button .line {
-  animation: fillCircle 30s linear forwards;
+  transition: all 1s linear;
+  /* animation: fillCircle 30s linear forwards; */
 }
 
 @keyframes fillCircle {

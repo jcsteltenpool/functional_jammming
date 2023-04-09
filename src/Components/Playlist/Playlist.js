@@ -3,7 +3,7 @@ import './Playlist.css';
 import TrackList from '../TrackList/TrackList';
 
 export default function Playlist (props) {
-    const {onNameChange, playlistTracks, playlistName, onRemove, onPlay, onPause, previewId, onSave} = props;
+    const {onNameChange, playlistTracks, playlistName, onRemove, onPlay, onPause, previewId, progress, onSave, audioRef} = props;
     
     const handleNameChange = ({ target }) => onNameChange(target.value);
     
@@ -17,6 +17,7 @@ export default function Playlist (props) {
                         onPlay={onPlay}
                         onPause={onPause}
                         previewId={previewId}
+                        progress={progress}
                         isRemoval={true}/>
             <button className="Playlist-save" onClick={onSave}>SAVE TO SPOTIFY</button>
         </div>

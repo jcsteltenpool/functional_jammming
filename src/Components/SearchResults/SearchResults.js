@@ -3,7 +3,7 @@ import './SearchResults.css';
 import TrackList from '../TrackList/TrackList';
 
 export default function SearchResults (props) {
-    const {searchResults, onAdd, onPlay, onPause, previewId} = props;
+    const {searchResults, onAdd, onPlay, onPause, previewId, progress} = props;
 
     return (
         <div className="SearchResults">
@@ -13,6 +13,7 @@ export default function SearchResults (props) {
                         onPlay={onPlay}
                         onPause={onPause}
                         previewId={previewId}
+                        progress={progress}
                         isRemoval={false}
                         />
         </div>

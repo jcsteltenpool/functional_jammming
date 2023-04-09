@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import "./Track.css";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -6,7 +6,7 @@ import { faPlay } from "@fortawesome/free-solid-svg-icons";
 import { faPause } from "@fortawesome/free-solid-svg-icons";
 
 export default function Track (props) {
-    const {track, onAdd, onPlay, onPause, previewId, onRemove, isRemoval} = props;
+    const {track, onAdd, onPlay, onPause, previewId, onRemove, isRemoval, progress} = props;
 
     const renderPreviewState = () => {
         return track.id === previewId 
@@ -18,6 +18,8 @@ export default function Track (props) {
                             className="line"
                             strokeWidth="6"
                             strokeLinecap="butt"
+                            strokeDasharray={progress}
+
                             d="m 50 10 A 1 1 0 0 1 50 90 A 1 1 0 0 1 50 10">
                         </path>
                     </svg>
@@ -25,6 +27,15 @@ export default function Track (props) {
                 </button>
             :   <button className="Preview-button" onClick={() => onPlay(track)}>
                     <img className="Track-image" src={track.imageUrl} alt=""/>
+                    {/* <svg stroke="white" fill="none" className="Preview-circle" viewBox="0 0 100 100" width="36">
+                        <path
+                            className="line"
+                            strokeWidth="6"
+                            strokeLinecap="butt"
+                            strokeDasharray= "0 250"
+                            d="m 50 10 A 1 1 0 0 1 50 90 A 1 1 0 0 1 50 10">
+                        </path>
+                    </svg> */}
                     <FontAwesomeIcon icon={faPlay} />
                 </button>
     };
