@@ -74,7 +74,7 @@
 }
 
 .Preview-button .line {
-  transition: all 1s linear;
+  transition: all 100ms linear;
   /* animation: fillCircle 30s linear forwards; */
 }
 

@@ -69,11 +69,10 @@ export default function App () {
   useEffect(() => {
     if (previewTrack) {
       const id = setInterval(() => {
-        const calcProgress = ((Math.ceil(audioRef.current.currentTime * 8.7)).toString()) + " 250";
+        const calcProgress = ((Math.ceil(audioRef.current.currentTime * 8.4)).toString()) + " 250";
         setProgress(calcProgress);
         console.log(progress);
-        // console.log(Math.ceil(audioRef.current.currentTime * 8.4));
-      }, 1000);
+      }, 100);
       return () => clearInterval(id);
     }
   });
@@ -120,7 +119,7 @@ export default function App () {
                   playlistTracks={playlistTracks} 
                   previewId={previewId} 
                   progress={progress}
-                  audioRef={audioRef.current}
+                  audioRef={audioRef}
                   onRemove={removeTrack}
                   onSave={savePlaylist}
                   onPlay={playPreview}

@@ -3,7 +3,7 @@ import './TrackList.css';
 import Track from '../Track/Track';
 
 export default function TrackList (props) {
-    const {tracks, onAdd, onPlay, onPause, previewId, onRemove, isRemoval, progress, audioRef} = props;
+    const {tracks, onAdd, onPlay, onPause, previewId, onRemove, isRemoval, progress} = props;
     return (
         <div className="TrackList">
                 {
@@ -15,7 +15,6 @@ export default function TrackList (props) {
                                         onPause={onPause}
                                         previewId={previewId}
                                         progress={progress}
-                                        audioRef={audioRef}
                                         onRemove={onRemove}
                                         isRemoval={isRemoval}
                                         />

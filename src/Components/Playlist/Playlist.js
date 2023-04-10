@@ -3,7 +3,7 @@ import './Playlist.css';
 import TrackList from '../TrackList/TrackList';
 
 export default function Playlist (props) {
-    const {onNameChange, playlistTracks, playlistName, onRemove, onPlay, onPause, previewId, progress, onSave, audioRef} = props;
+    const {onNameChange, playlistTracks, playlistName, onRemove, onPlay, onPause, previewId, progress, onSave} = props;
     
     const handleNameChange = ({ target }) => onNameChange(target.value);
     

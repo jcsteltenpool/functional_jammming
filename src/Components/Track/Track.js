@@ -8,11 +8,28 @@ import { faPause } from "@fortawesome/free-solid-svg-icons";
 export default function Track (props) {
     const {track, onAdd, onPlay, onPause, previewId, onRemove, isRemoval, progress} = props;
 
-    const renderPreviewState = () => {
-        return track.id === previewId 
-            ?   <button className="Preview-button" data-state="isPlaying" onClick={() => onPause()}>
-                    <img className="Track-image" src={track.imageUrl} alt=""/>
+    const [isPlaying, setIsPlaying] = useState(false);
 
+    useEffect(() => {
+        if (track.id === previewId) {
+            setIsPlaying(true);
+        } else {
+            setIsPlaying(false);
+        }
+    }, [track.id, previewId]);
+
+    const addTrack = () => onAdd(track);
+
+    const removeTrack = () => onRemove(track);
+
+    return (
+        <div className="Track">
+                <div>
+                <button className="Preview-button" 
+                        data-state={isPlaying && "isPlaying"} 
+                        onClick= {() => {isPlaying ? onPause() : onPlay(track)}}>
+                    <img className="Track-image" src={track.imageUrl} alt=""/>
+                    {isPlaying && 
                     <svg stroke="white" fill="none" className="Preview-circle" viewBox="0 0 100 100" width="36">
                         <path
                             className="line"
@@ -22,32 +39,11 @@ export default function Track (props) {
 
                             d="m 50 10 A 1 1 0 0 1 50 90 A 1 1 0 0 1 50 10">
                         </path>
-                    </svg>
-                    <FontAwesomeIcon icon={faPause} />
+                    </svg>}
+                    {isPlaying  ? <FontAwesomeIcon icon={faPause} />
+                                : <FontAwesomeIcon icon={faPlay} />}
+                    
                 </button>
-            :   <button className="Preview-button" onClick={() => onPlay(track)}>
-                    <img className="Track-image" src={track.imageUrl} alt=""/>
-                    {/* <svg stroke="white" fill="none" className="Preview-circle" viewBox="0 0 100 100" width="36">
-                        <path
-                            className="line"
-                            strokeWidth="6"
-                            strokeLinecap="butt"
-                            strokeDasharray= "0 250"
-                            d="m 50 10 A 1 1 0 0 1 50 90 A 1 1 0 0 1 50 10">
-                        </path>
-                    </svg> */}
-                    <FontAwesomeIcon icon={faPlay} />
-                </button>
-    };
-
-    const addTrack = () => onAdd(track);
-
-    const removeTrack = () => onRemove(track);
-
-    return (
-        <div className="Track">
-                <div>
-                    { renderPreviewState() }
                 </div>
                 <div className="Track-information">
                     <h3>{track.name}</h3>
