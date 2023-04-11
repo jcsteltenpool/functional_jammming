@@ -71,7 +71,6 @@ export default function App () {
       const id = setInterval(() => {
         const calcProgress = ((Math.ceil(audioRef.current.currentTime * 8.4)).toString()) + " 250";
         setProgress(calcProgress);
-        console.log(progress);
       }, 100);
       return () => clearInterval(id);
     }

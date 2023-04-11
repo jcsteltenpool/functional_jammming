@@ -67,7 +67,7 @@
 }
 
 .Track-image {
-  opacity: 0.5;
+  opacity: 0.6;
   z-index: 1;
   width: 40px;
   border: 1px solid #6c41ec;
@@ -75,16 +75,6 @@
 
 .Preview-button .line {
   transition: all 100ms linear;
-  /* animation: fillCircle 30s linear forwards; */
-}
-
-@keyframes fillCircle {
-  0% {
-    stroke-dasharray: 1 250;
-  }
-  100% {
-    stroke-dasharray: 251;
-  }
 }
 
 @keyframes glow {

@@ -1,6 +1,6 @@
 # Functional Jammming - The Codecademy project rewritten
 
-Last update: april 7th 2023  
+Last update: april 11th 2023  
 
 This is my solution to the [Jammming Project](http://jammming.s3-website-us-east-1.amazonaws.com), part of the Codecademy Front-End Developer Career Path.  
 The project focused on using my knowledge of React components, passing state, and requests with the Spotify API to build a website that allows users to search the Spotify library, create a custom playlist, then save it to their Spotify account. 
@@ -22,7 +22,7 @@ The project focused on using my knowledge of React components, passing state, an
 
 ### The challenge
 
-Whereas the original project was ment to be written using class components, I decided to challenge myself and rewrote the entire project using on only function components.  
+Whereas the original project was ment to be written using class components, I decided to challenge myself and rewrote the entire project using only function components.  
 Also, I wanted to add the possibility to preview the tracks and to animate the playing preview with a micro animation of a circle filling up. 
 
 ### Screenshot
@@ -84,7 +84,7 @@ const stopResetTimer = () => {
 ```
   
 **Creating the micro animation**  
-In a [YouTube tutorial by Kevin Powell](https://www.youtube.com/watch?v=R00QiudbD4Y&t=253s) I stumbled upon the animation of hamburger menu's using SVG's. To create the animation of a circle forming while the preview played I transferred what I learned in this video and made my own SVG of a circle that could fill up using `stroke-dasharray`. 
+In a [YouTube tutorial by Kevin Powell](https://www.youtube.com/watch?v=R00QiudbD4Y&t=253s) I came across the animation of hamburger menu's using SVG's. To create the animation of a circle forming while the preview played I transferred what I learned in this video and made my own SVG of a circle that could fill up using `stroke-dasharray`. 
 
 In JS:
 ```js
@@ -108,7 +108,7 @@ In CSS:
 
 @keyframes fillCircle {
   0% {
-    stroke-dasharray: 1 250;
+    stroke-dasharray: 0 250;
   }
   100% {
     stroke-dasharray: 251;
@@ -117,9 +117,26 @@ In CSS:
 ```
 
 ### The next step  
-Right now the animation of the circle is static, but I would like it to reflect the actual current playstate / duration of the audio file. This way I can hopefully make it possible to kill this bug: if you trigger playing a track in the Search results and additionaly add it to the Playlist, the animation starts from 0 in the Playlist version of the track.
+*Right now the animation of the circle is static, but I would like it to reflect the actual current playstate / duration of the audio file. This way I can hopefully make it possible to kill this bug: if you trigger playing a track in the Search results and additionaly add it to the Playlist, the animation starts from 0 in the Playlist version of the track.*
 
-Another addition I would like to explore is using the Color Thief plugin to return the dominant color in the artwork of the current preview track. I would use this color or the color palette to change the overall look of the Functional Jammming app.dd
+UPDATE: I managed to make the animation of the circle responsive to the current playtime of the audio file, using `useRef` with a reference to the audio file in App.js:
+```js
+const initProgress = "0 250";
+const [progress, setProgress] = useState(initProgress);
+useEffect(() => {
+  if (previewTrack) {
+    const id = setInterval(() => {
+      const calcProgress = ((Math.ceil(audioRef.current.currentTime * 8.4)).toString()) + " 250";
+      setProgress(calcProgress);
+    }, 100);
+    return () => clearInterval(id);
+  }
+});
+```
+Then I import `progress` as prop in Track.js and assign it as value to the `stroke-dasharray` attribute, making the `@keyframes` animation in Track.css obsolete. 
+
+
+Another addition I would've liked to explore is using the Color Thief plugin to return the dominant color in the artwork of the current preview track. I would use this color or the color palette to change the overall look of the Functional Jammming app.
 
 ### Useful resources
 
