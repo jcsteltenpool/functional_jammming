@@ -11,11 +11,9 @@ export default function Track (props) {
     const [isPlaying, setIsPlaying] = useState(false);
 
     useEffect(() => {
-        if (track.id === previewId) {
-            setIsPlaying(true);
-        } else {
-            setIsPlaying(false);
-        }
+        track.id === previewId 
+            ? setIsPlaying(true)
+            : setIsPlaying(false)    
     }, [track.id, previewId]);
 
     const addTrack = () => onAdd(track);
